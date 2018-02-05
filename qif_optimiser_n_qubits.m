@@ -11,9 +11,11 @@ m=input(prompt2);
 %subspace. There is something to be explored here, do rank deficient SLD's
 %represent local maxima and minima?
 %rho=(1/n)*eye(2^n);
-%rho(1,n)=(1/n)*0.1;
-%rho(n,1)=(1/n)*0.1;
-
+%rho=zeros(2^n);
+%rho(1,n)=0.5;
+%rho(n,1)=0.5;
+%rho(1,1)=1;
+%rho(n,n)=0.5;
 %if it takes GHZ as an input, it remains stable and coverges quickly 
 %rho(1,1)=0.5;
 %rho(1,2^n)=0.5;
@@ -22,8 +24,8 @@ m=input(prompt2);
 
 
 rho=(1/2^n)*ones(2^n);
-%rho(1,2^n)=0;
-%rho(2^n,1)=0;
+%rho(1,2^n)=0.1;
+%rho(2^n,1)=0.1;
 
 %rho=eye(2^n);
 %rho=(1/trace(rho))*rho;
@@ -59,7 +61,7 @@ end
 %Perhaps also look at defining a second termination condition.
 
 %I also need some function to define the kraus operators
-gamma=0.000031;
+gamma=0.4;
 %should put a statment here if gamma=0 to by pass this step
 e=npermutek(['b','c'],n);
 
@@ -85,9 +87,11 @@ end
 %so now E, is the set of all our kraus operators
 %NOTE: beacuse all kraus operators are real and diagonal, I have not
 %bothered with any transposes
+
 rhosolutions=cell(1,m+1);
 rhosolutions{1,1}=rho;
 qfis=rand(1,5);
+
 for i=1:m
     if qfis(1,mod(i,5)+1)==qfis(1,mod(i-1,5)+1); %|| qfis(1,5)==qfis(1,3) || qfis(1,5)==qfis(1,2);
         disp('terminated due to convergence')
@@ -99,3 +103,5 @@ for i=1:m
     qfis(1,mod(i,5)+1)=real(qfin);
     fprintf('itteration %d. QFI: %d \n',i,qfin)
 end
+figure 
+stem3(abs(rhosolutions{1,i}))

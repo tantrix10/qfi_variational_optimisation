@@ -27,7 +27,7 @@ function [ rhonew, qfin ] = SLDsolveN( H,E, lambda,rho,n )
  L(abs(L)<1e-3)=0;
  
 qfin=((trace(rhonl*(G(H,L)))));
-qfian=trace(rhonl*L*L);
+%qfian=trace(rhonl*L*L)
 
 a= maxeig(noisen(G(H,L),E,n)); 
 
